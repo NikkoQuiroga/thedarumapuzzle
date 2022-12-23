@@ -114,7 +114,6 @@ mostrarResultados.textContent = cartaGanada.length;
 if (cartaGanada.length === cartasArray.length / 2) {
     // alert('¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?');
     alerta.textContent = "¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?";
-
   }
 }
 
