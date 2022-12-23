@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
     ]
 
-//     //Mezclo el Array de forma aleatoria, para que cada vez que actualizo la página aparezca de forma impredecible.
+//Mezclo el Array de forma aleatoria, para que cada vez que actualizo la página aparezca de forma impredecible.
     cartasArray.sort(() => 0.5 - Math.random());
 
 const memoTest = document.getElementById("memoTest");
@@ -81,13 +81,18 @@ function chequearIguales() {
 const cartas = document.querySelectorAll('img:not(.excepcion)');
 const opcionUno = cartaElegidaId[0];
 const opcionDos = cartaElegidaId[1];
+const alerta = document.getElementById("alerta");
 
 if (opcionUno == opcionDos) {
     cartas[opcionUno].setAttribute('src', 'images/blank.png');
     cartas[opcionDos].setAttribute('src', 'images/blank.png');
-    alert('Tocaste dos veces la misma imagen');
+    // alert('Tocaste dos veces la misma imagen'); 
+    alerta.textContent = "¡Tocaste dos veces la misma imagen!";
+
+    
 } else if (cartaElegida[0] === cartaElegida[1]) {
-    alert('¡Encontraste dos darumas iguales!');
+    // alert('¡Encontraste dos darumas iguales!');
+    alerta.textContent = "¡Encontraste dos darumas iguales!";
     cartas[opcionUno].setAttribute('src', 'images/blanco.png');
     cartas[opcionDos].setAttribute('src', 'images/blanco.png');
     cartas[opcionUno].removeEventListener('click', darVueltaLaCarta);
@@ -97,7 +102,8 @@ if (opcionUno == opcionDos) {
 
     cartas[opcionUno].setAttribute('src', 'images/blank.png');
     cartas[opcionDos].setAttribute('src', 'images/blank.png');
-    alert('No es correcto... ¡intentá nuevamente!');
+    alerta.textContent = "No es correcto... ¡intentá nuevamente!";
+    // alert('No es correcto... ¡intentá nuevamente!');
 }
 
 // //Llamo a las variables
@@ -106,8 +112,10 @@ cartaElegida = [];
 cartaElegidaId = [];
 mostrarResultados.textContent = cartaGanada.length;
 if (cartaGanada.length === cartasArray.length / 2) {
-    alert('¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?');
-}
+    // alert('¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?');
+    alerta.textContent = "¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?";
+
+  }
 }
 
 function darVueltaLaCarta() {
