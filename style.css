@@ -1,0 +1,93 @@
+* {
+
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%
+}
+
+html,
+body {
+
+  max-width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: radial-gradient(#FEFDCC,#807F66);
+}
+
+header {
+
+  display: block;
+  margin: auto;
+  width: 50%;
+}
+
+h2 {
+
+  text-align: center;
+  
+}
+
+.headerPadre {
+
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  margin: 20px 20px 0px 20px;
+
+}
+
+.headerPadre img {
+
+  width: 200px;
+  border-radius: 10px;
+
+}
+
+.headerPadre h1 {
+
+  font-size: 80px;
+  padding-left: 10px;
+  color: black;
+
+}
+
+.objetivo {
+
+  display: block;
+  margin: auto;
+  width: 70%;
+  padding: 20px 20px 20px 20px;
+  color: #404033;
+}
+
+#memoTest {
+
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  width: 600px;
+  height: 450px;
+
+}
+
+#memoTest img {
+
+  width: 150px;
+  height: 150px;
+}
+
+.juego {
+
+  display: block;
+  margin: auto;
+
+}
+
+.juego h3 {
+
+  color: #FEFDCC;
+  text-align: center;
+  padding-top: 20px;
+
+}
