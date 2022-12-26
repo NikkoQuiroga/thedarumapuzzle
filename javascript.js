@@ -2,6 +2,9 @@
 let nombreUsuario = prompt('Para comenzar el juego, ingresá tu nombre');
 document.getElementById("nombreUsuario").innerHTML = nombreUsuario;
 
+localStorage.setItem("nombre", `${nombreUsuario}`);
+document.getElementById("ultimoVisitante").innerHTML = localStorage.getItem("nombre");
+
 //Creo un Array con todos los elementos que va a utilizar el código.
 document.addEventListener('DOMContentLoaded', () => {
 
