@@ -1,150 +1,181 @@
-// //Hago que el usuario pueda ingresar nombre e interactúe con la página.
-let nombreUsuario = prompt('Para comenzar el juego, ingresá tu nombre');
-document.getElementById("nombreUsuario").innerHTML = nombreUsuario;
+// Sweet Alert Inicial
 
-//Creo un Array con todos los elementos que va a utilizar el código.
+Swal.fire({
+    title: "Para comenzar el juego, ¡ingresá tu nombre!",
+    input: "text",
+    confirmButtonText: "Comenzar",
+    color: '#404034',
+    background: '#fff',
+    confirmButtonColor: '#434338',
+}).then((result) => {
+    if (result.isConfirmed) {
+        document.getElementById("nombreUsuario").innerHTML = `${result.value}`;
+    };
+});
+
+// Sweet Alert Final
+
+function lanzarFuegos() {
+    Swal.fire({
+        title: 'En Japón, el muñeco Daruma se regala como símbolo de buena fortuna... ¡Felicitaciones!',
+        width: 600,
+        padding: '3em',
+        color: '#404034',
+        background: '#fff',
+        confirmButtonColor: '#434338',
+        backdrop: `
+        rgba(153,153,102,0.8)
+      url(./images/output.gif)
+      center top
+      no-repeat
+    `
+    });
+};
+
+// Cronómetro
+
+window.onload = init;
+function init() {
+    document.querySelector(".start").addEventListener("click", cronometrar);
+    document.querySelector(".stop").addEventListener("click", parar);
+    h = 0;
+    m = 0;
+    s = -1;
+    document.getElementById("hms").innerHTML = "00:00:00";
+};
+
+function cronometrar() {
+    escribir();
+    id = setInterval(escribir, 1000);
+    document.querySelector(".start").removeEventListener("click", cronometrar);
+};
+function escribir() {
+    var hAux, mAux, sAux;
+    s++;
+    if (s > 59) { m++; s = 0; }
+    if (m > 59) { h++; m = 0; }
+    if (h > 24) { h = 0; }
+
+    if (s < 10) { sAux = "0" + s; } else { sAux = s; }
+    if (m < 10) { mAux = "0" + m; } else { mAux = m; }
+    if (h < 10) { hAux = "0" + h; } else { hAux = h; }
+
+    document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux;
+};
+function parar() {
+    clearInterval(id);
+    document.querySelector(".start").addEventListener("click", cronometrar);
+};
+
+// Reproducir Sonidos
+
+const sonidoCorrecto = document.getElementById("sonidoCorrecto");
+const sonidoError = document.getElementById("sonidoError");
+const sonidoGanador = document.getElementById("sonidoGanador");
+
+function reproducirSonidoCorrecto() {
+    sonidoCorrecto.play();
+};
+
+function reproducirSonidoError() {
+    sonidoError.play();
+};
+
+function reproducirSonidoGanador() {
+    sonidoGanador.play();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-  const cartasArray = [
-    {
-      name: 'daruma-verde',
-      img: 'images/daruma-verde.png',
-    },
-    {
-      name: 'daruma-multicolor',
-      img: 'images/daruma-multicolor.png',
-    },
-    {
-      name: 'daruma-celeste',
-      img: 'images/daruma-celeste.png',
-    },
-    {
-      name: 'daruma-hannya',
-      img: 'images/daruma-hannya.png',
-    },
-    {
-      name: 'daruma-blanco',
-      img: 'images/daruma-blanco.png',
-    },
-    {
-      name: 'daruma-rosa',
-      img: 'images/daruma-rosa.png',
-    },
-    {
-      name: 'daruma-verde',
-      img: 'images/daruma-verde.png',
-    },
-    {
-      name: 'daruma-multicolor',
-      img: 'images/daruma-multicolor.png',
-    },
-    {
-      name: 'daruma-celeste',
-      img: 'images/daruma-celeste.png',
-    },
-    {
-      name: 'daruma-hannya',
-      img: 'images/daruma-hannya.png',
-    },
-    {
-      name: 'daruma-blanco',
-      img: 'images/daruma-blanco.png',
-    },
-    {
-      name: 'daruma-rosa',
-      img: 'images/daruma-rosa.png',
-    }
-  ]
 
-  //Mezclo el Array de forma aleatoria, para que cada vez que actualizo la página aparezca de forma impredecible.
-  cartasArray.sort(() => 0.5 - Math.random());
+    let cartasArray = [];
+    fetch('./dummy.json')
+        .then(res => res.json())
+        .then((data) => {
+            cartasArray = data;
+            cartasArray.sort(() => 0.5 - Math.random());
 
-  const memoTest = document.getElementById("memoTest");
-  const mostrarResultados = document.getElementById("resultado");
-  let cartaElegida = [];
-  let cartaElegidaId = [];
-  let cartaGanada = [];
+            const memoTest = document.getElementById("memoTest");
+            const mostrarResultados = document.getElementById("resultado");
+            let cartaElegida = [];
+            let cartaElegidaId = [];
+            let cartaGanada = [];
 
-  // Iniciio Cronometro y tiempo record
-  const tiempoTotal = localStorage.getItem("tiempoTotal"); 
-  document.getElementById("ultimoVisitante").innerHTML = tiempoTotal || 0;
-  let empezarCronometro = '';
+            const tiempoTotal = localStorage.getItem("tiempoTotal");
+            document.getElementById("ultimoVisitante").innerHTML = tiempoTotal || 0;
+            let empezarCronometro = '';
 
-  //Armo el tablero del memoTest
-  function crearTablero() {
-    for (let i = 0; i < cartasArray.length; i++) {
-      const carta = document.createElement('img');
-      carta.setAttribute('src', 'images/blank.png');
-      carta.setAttribute('data-id', i);
-      carta.addEventListener('click', darVueltaLaCarta);
-      memoTest.appendChild(carta);
-    }
-  }
+            function crearTablero() {
+                for (let i = 0; i < cartasArray.length; i++) {
+                    const carta = document.createElement('img');
+                    carta.setAttribute('src', 'images/blank.png');
+                    carta.setAttribute('data-id', i);
+                    carta.addEventListener('click', darVueltaLaCarta);
+                    memoTest.appendChild(carta);
+                };
+            };
 
-  // //Hago que el código tome todas las imágenes de la página para el juego, menos la imágen del header. Creo el par de cartas a elegir.
-  function chequearIguales() {
-    const cartas = document.querySelectorAll('img:not(.excepcion)');
-    const opcionUno = cartaElegidaId[0];
-    const opcionDos = cartaElegidaId[1];
-    const alerta = document.getElementById("alerta");
+            function chequearIguales() {
+                const cartas = document.querySelectorAll('img:not(.excepcion)');
+                const opcionUno = cartaElegidaId[0];
+                const opcionDos = cartaElegidaId[1];
+                const alerta = document.getElementById("alerta");
 
-    if (opcionUno == opcionDos) {
-      cartas[opcionUno].setAttribute('src', 'images/blank.png');
-      cartas[opcionDos].setAttribute('src', 'images/blank.png');
-      // alert('Tocaste dos veces la misma imagen'); 
-      alerta.textContent = "¡Tocaste dos veces la misma imagen!";
+                if (opcionUno == opcionDos) {
+                    cartas[opcionUno].setAttribute('src', 'images/blank.png');
+                    cartas[opcionDos].setAttribute('src', 'images/blank.png');
+                    alerta.textContent = "¡Tocaste dos veces la misma imagen!";
 
+                } else if (cartaElegida[0] === cartaElegida[1]) {
+                    alerta.textContent = "¡Encontraste dos darumas iguales!";
+                    cartas[opcionUno].setAttribute('src', 'images/blanco.png');
+                    cartas[opcionDos].setAttribute('src', 'images/blanco.png');
+                    cartas[opcionUno].removeEventListener('click', darVueltaLaCarta);
+                    cartas[opcionDos].removeEventListener('click', darVueltaLaCarta);
+                    cartaGanada.push(cartaElegida);
+                    reproducirSonidoCorrecto();
+                } else {
+                    cartas[opcionUno].setAttribute('src', 'images/blank.png');
+                    cartas[opcionDos].setAttribute('src', 'images/blank.png');
+                    alerta.textContent = "No es correcto... ¡intentá nuevamente!";
+                    reproducirSonidoError();
+                };
 
-    } else if (cartaElegida[0] === cartaElegida[1]) {
-      // alert('¡Encontraste dos darumas iguales!');
-      alerta.textContent = "¡Encontraste dos darumas iguales!";
-      cartas[opcionUno].setAttribute('src', 'images/blanco.png');
-      cartas[opcionDos].setAttribute('src', 'images/blanco.png');
-      cartas[opcionUno].removeEventListener('click', darVueltaLaCarta);
-      cartas[opcionDos].removeEventListener('click', darVueltaLaCarta);
-      cartaGanada.push(cartaElegida);
-    } else {
+                cartaElegida = [];
+                cartaElegidaId = [];
+                mostrarResultados.textContent = cartaGanada.length;
+                if (cartaGanada.length === cartasArray.length / 2) {
+                    const tiempoTotalActual = Math.floor((Date.now() - empezarCronometro) / 1000);
+                    if (!tiempoTotal) {
+                        localStorage.setItem('tiempoTotal', tiempoTotalActual);
+                        document.getElementById("ultimoVisitante").innerHTML = tiempoTotalActual;
+                    } else if (tiempoTotalActual < tiempoTotal) {
+                        localStorage.setItem('tiempoTotal', tiempoTotalActual);
+                        document.getElementById("ultimoVisitante").innerHTML = tiempoTotalActual;
+                    };
+                    alerta.textContent = "¡Ganaste!";
+                    parar();
+                    reproducirSonidoGanador();
+                    lanzarFuegos();
+                };
+            };
 
-      cartas[opcionUno].setAttribute('src', 'images/blank.png');
-      cartas[opcionDos].setAttribute('src', 'images/blank.png');
-      alerta.textContent = "No es correcto... ¡intentá nuevamente!";
-      // alert('No es correcto... ¡intentá nuevamente!');
-    }
+            function darVueltaLaCarta() {
+                if (!empezarCronometro) {
+                    empezarCronometro = Date.now();
+                }
 
-    // //Llamo a las variables
+                let cartaId = this.getAttribute('data-id');
+                cartaElegida.push(cartasArray[cartaId].name);
+                cartaElegidaId.push(cartaId);
+                this.setAttribute('src', cartasArray[cartaId].img);
 
-    cartaElegida = [];
-    cartaElegidaId = [];
-    mostrarResultados.textContent = cartaGanada.length;
-    if (cartaGanada.length === cartasArray.length / 2) {
-      const tiempoTotalActual = Math.floor((Date.now() - empezarCronometro) / 1000); // Este es el tiempo ganador
-      // Compara la primera vez que entras
-      if (!tiempoTotal) {
-        localStorage.setItem('tiempoTotal', tiempoTotalActual);
-        document.getElementById("ultimoVisitante").innerHTML = tiempoTotalActual;
-      } else if (tiempoTotalActual < tiempoTotal) { 
-        localStorage.setItem('tiempoTotal', tiempoTotalActual);
-        document.getElementById("ultimoVisitante").innerHTML = tiempoTotalActual;
-      }
-      // alert('¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?');
-      alerta.textContent = "¡Felicitaciones! ¿Sabías que el muñeco Daruma es un amuleto muy importante en Japón ya que representa el esfuerzo, la perseverancia y la tenacidad por cumplir los objetivos que nos proponemos a lo largo de nuestra vida?";
-    }
-  }
+                if (cartaElegida.length === 2) {
+                    setTimeout(chequearIguales, 300);
+                };
 
-  function darVueltaLaCarta() {
-    //Este IF es para comenzar el cronometro en cuanto se hace click
-    if (!empezarCronometro) {
-      empezarCronometro = Date.now();
-    }
-    
-    let cartaId = this.getAttribute('data-id');
-    cartaElegida.push(cartasArray[cartaId].name);
-    cartaElegidaId.push(cartaId);
-    this.setAttribute('src', cartasArray[cartaId].img);
-    if (cartaElegida.length === 2) {
-      setTimeout(chequearIguales, 500);
-    }
+            };
 
-  }
-
-  crearTablero();
+            crearTablero();
+        })
+        .catch(err => console.error(err));
 });

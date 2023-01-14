@@ -11,6 +11,18 @@
 
 <body>
 
+  <audio id="sonidoCorrecto">
+    <source src="./sonidos/bien.wav" />
+  </audio>
+
+  <audio id="sonidoError">
+    <source src="./sonidos/mal.wav" />
+  </audio>
+
+  <audio id="sonidoGanador">
+    <source src="./sonidos/ganaste.wav" />
+  </audio>
+
 
   <header>
     <div class="headerPadre">
@@ -23,19 +35,27 @@
 
   <section class="objetivo">
     <div>
-      <h2>¡Hola <span id="nombreUsuario"></span>! El objetivo del juego es lograr reunir la mayor cantidad de muñecos <i>Daruma</i> pares.</h2>
+      <h2>¡Hola <span id="nombreUsuario"></span>! El objetivo del juego es lograr reunir la mayor cantidad de muñecos
+        <i>Daruma</i> pares.</h2>
     </div>
   </section>
 
+  <div class="cronometro">
+    <div id="hms"></div>
+    <div class="boton stop"></div>
+    <div class="boton reiniciar"></div>
+  </div>
+
   <section class="juego">
-    <div id="memoTest"></div>
-    <div>
+    <div id="memoTest" class="boton start"></div>
+    <div class="abajoTodo">
       <h3>Coincidencias: <span id="resultado"></span></h3>
       <h3>Atención: <span id="alerta"></span></h3>
       <h3>Mejor tiempo: <span id="ultimoVisitante"></span> Segundos</h3>
     </div>
   </section>
 
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="javascript.js"></script>
 
 </body>
