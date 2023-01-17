@@ -50,7 +50,7 @@ function cronometrar() {
     document.querySelector(".start").removeEventListener("click", cronometrar);
 };
 function escribir() {
-    var hAux, mAux, sAux;
+    let hAux, mAux, sAux;
     s++;
     if (s > 59) { m++; s = 0; }
     if (m > 59) { h++; m = 0; }
